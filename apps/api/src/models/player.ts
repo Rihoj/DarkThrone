@@ -23,6 +23,7 @@ import {
 } from '@darkthrone/game-data';
 import { getRandomNumber } from '../utils';
 import { Paginator } from '../lib/paginator';
+import { BankingService } from '../services/banking';
 
 export default class PlayerModel {
   private ctx: Context;
@@ -44,12 +45,13 @@ export default class PlayerModel {
     fortification: number;
     housing: number;
   };
+  private BankingService: BankingService;
 
   public units: PlayerUnitsModel[];
 
   constructor(ctx: Context, data: PlayerRow, units: PlayerUnitsModel[]) {
     this.ctx = ctx;
-
+    this.BankingService = new BankingService(ctx);
     this.populateFromRow(data);
     this.units = units;
   }
@@ -109,36 +111,12 @@ export default class PlayerModel {
     );
   }
 
-  async depositGold(amount: number) {
-    this.ctx.logger.debug({ amount }, 'Depositing gold');
-
-    this.gold -= amount;
-    this.goldInBank += amount;
-
-    await this.ctx.daoFactory.player.createBankHistory(
-      this.ctx.logger,
-      this.id,
-      amount,
-      'deposit',
-    );
-
-    this.save();
+  async depositGold(amount: number): Promise<void> {
+    await this.BankingService.deposit(this, amount);
   }
 
-  async withdrawGold(amount: number) {
-    this.ctx.logger.debug({ amount }, 'Withdrawing gold');
-
-    this.gold += amount;
-    this.goldInBank -= amount;
-
-    await this.ctx.daoFactory.player.createBankHistory(
-      this.ctx.logger,
-      this.id,
-      amount,
-      'withdraw',
-    );
-
-    this.save();
+  async withdrawGold(amount: number): Promise<void> {
+    await this.BankingService.withdraw(this, amount);
   }
 
   get armySize(): number {

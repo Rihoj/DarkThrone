@@ -10,6 +10,7 @@ import router from './router';
 import UserModel from './models/user';
 import UserSessionModel from './models/userSession';
 import PlayerModel from './models/player';
+import ServiceFactory from './serviceFactory';
 
 export type Context = {
   requestID: string;
@@ -17,6 +18,7 @@ export type Context = {
   logger: Logger;
   modelFactory: ModelFactory;
   daoFactory: DaoFactory;
+  serviceFactory: ServiceFactory;
   authedUser?: {
     model: UserModel;
     session: UserSessionModel;
@@ -55,6 +57,7 @@ const application = (
       logger: logger.child({ requestID }),
       modelFactory: new ModelFactory(),
       daoFactory,
+      serviceFactory: new ServiceFactory(),
     };
 
     res.setHeader('X-Powered-By', 'Dark Throne');

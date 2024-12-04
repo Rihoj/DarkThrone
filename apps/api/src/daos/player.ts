@@ -4,6 +4,7 @@ import { Logger } from 'pino';
 import { ulid } from 'ulid';
 import { Paginator } from '../lib/paginator';
 import PlayerModel from '../models/player';
+import { BankHistory } from '../lib/BankHistory';
 
 export type PlayerRow = {
   id: string;
@@ -193,6 +194,8 @@ export default class PlayerDao {
     }
   }
 
+  // TODO: move this to a separate DAO and model
+  // Each table should have its own DAO and model
   async createBankHistory(
     logger: Logger,
     playerID: string,
@@ -210,17 +213,13 @@ export default class PlayerDao {
     }
   }
 
+  // TODO: move this to a separate DAO and model
+  // Each table should have its own DAO and model
   async fetchBankHistory(
     logger: Logger,
     playerID: string,
     dateFrom: Date,
-  ): Promise<
-    {
-      amount: number;
-      transaction_type: 'deposit' | 'withdraw';
-      created_at: Date;
-    }[]
-  > {
+  ): Promise<BankHistory[]> {
     try {
       const history = await this.database('bank_history')
         .where({ player_id: playerID })

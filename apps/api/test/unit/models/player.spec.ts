@@ -3,7 +3,11 @@ import { Context } from '../../../src/app';
 import PlayerModel from '../../../src/models/player';
 import PlayerUnitsModel from '../../../src/models/playerUnits';
 import UserModel from '../../../src/models/user';
-import { calculateLevelXP, getLevelXP, calculateLevelFromXP } from '@darkthrone/game-data';
+import {
+  calculateLevelXP,
+  getLevelXP,
+  calculateLevelFromXP,
+} from '@darkthrone/game-data';
 
 const mockPlayerRow: PlayerRow = {
   id: 'PLR-01HQH3NXAG7CASHPCETDC4HE0V',
@@ -63,6 +67,11 @@ describe('Model: Player', () => {
             fetchBankHistory: jest.fn().mockResolvedValue([]),
           },
         },
+        serviceFactory: {
+          banking: {
+            fetchBankHistory: jest.fn().mockResolvedValue([]),
+          },
+        },
       } as unknown as Context;
 
       const player = new PlayerModel(mockCTX, mockPlayerRow, mockPlayerUnits);
@@ -96,6 +105,11 @@ describe('Model: Player', () => {
         } as unknown as PlayerModel,
         daoFactory: {
           player: {
+            fetchBankHistory: jest.fn().mockResolvedValue([]),
+          },
+        },
+        serviceFactory: {
+          banking: {
             fetchBankHistory: jest.fn().mockResolvedValue([]),
           },
         },
@@ -393,6 +407,11 @@ describe('Model: Player', () => {
             update: jest.fn().mockResolvedValue(mockPlayerRow),
           },
         },
+        serviceFactory: {
+          banking: {
+            deposit: jest.fn().mockResolvedValue({}),
+          },
+        },
         logger: {
           debug: jest.fn(),
         },
@@ -400,22 +419,13 @@ describe('Model: Player', () => {
 
       const player = new PlayerModel(mockCTX, mockPlayerRow, []);
 
-      const saveMock = jest.fn().mockResolvedValue({});
-      player.save = saveMock;
-
       await player.depositGold(10);
 
-      expect(mockCTX.logger.debug).toHaveBeenCalledWith(
-        { amount: 10 },
-        'Depositing gold',
-      );
-      expect(mockCTX.daoFactory.player.createBankHistory).toHaveBeenCalledWith(
-        mockCTX.logger,
-        player.id,
+      expect(mockCTX.serviceFactory.banking.deposit).toHaveBeenCalledWith(
+        mockCTX,
+        player,
         10,
-        'deposit',
       );
-      expect(saveMock).toHaveBeenCalled();
     });
   });
 
@@ -428,6 +438,11 @@ describe('Model: Player', () => {
             update: jest.fn().mockResolvedValue(mockPlayerRow),
           },
         },
+        serviceFactory: {
+          banking: {
+            withdraw: jest.fn().mockResolvedValue({}),
+          },
+        },
         logger: {
           debug: jest.fn(),
         },
@@ -435,22 +450,13 @@ describe('Model: Player', () => {
 
       const player = new PlayerModel(mockCTX, mockPlayerRow, []);
 
-      const saveMock = jest.fn().mockResolvedValue({});
-      player.save = saveMock;
-
       await player.withdrawGold(10);
 
-      expect(mockCTX.logger.debug).toHaveBeenCalledWith(
-        { amount: 10 },
-        'Withdrawing gold',
-      );
-      expect(mockCTX.daoFactory.player.createBankHistory).toHaveBeenCalledWith(
-        mockCTX.logger,
-        player.id,
+      expect(mockCTX.serviceFactory.banking.withdraw).toHaveBeenCalledWith(
+        mockCTX,
+        player,
         10,
-        'withdraw',
       );
-      expect(saveMock).toHaveBeenCalled();
     });
   });
 

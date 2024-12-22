@@ -14,7 +14,7 @@ type ProficiencyKey =
   | 'charisma';
 const proficiencyMap: Record<ProficiencyKey, string> = {
   strength: 'Offense',
-  constitution: 'Defense',
+  constitution: 'Defence',
   wealth: 'Income',
   dexterity: 'Spy & Sentry',
   charisma: 'Reduced Prices',

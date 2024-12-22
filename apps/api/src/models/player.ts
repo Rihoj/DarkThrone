@@ -25,7 +25,7 @@ import { getRandomNumber } from '../utils';
 import { Paginator } from '../lib/paginator';
 import {
   getAttackModifier,
-  getDefenseModifier,
+  getDefenceModifier,
   getIncomeModifier,
   getCostModifier,
   applyBonuses,
@@ -87,7 +87,7 @@ export default class PlayerModel {
     if (!isAuthed) return playerObject;
 
     const attackStrength = await this.calculateAttackStrength();
-    const defenseStrength = await this.calculateDefenseStrength();
+    const defenceStrength = await this.calculateDefenceStrength();
     const goldPerTurn = await this.calculateGoldPerTurn();
 
     const date24HoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
@@ -95,7 +95,7 @@ export default class PlayerModel {
 
     const authedPlayerObject: AuthedPlayerObject = Object.assign(playerObject, {
       attackStrength: attackStrength,
-      defenseStrength: defenseStrength,
+      defenceStrength: defenceStrength,
       attackTurns: this.attackTurns,
       experience: this.experience,
       goldInBank: this.goldInBank,
@@ -236,14 +236,14 @@ export default class PlayerModel {
     return Math.floor(offense);
   }
 
-  async calculateDefenseStrength(): Promise<number> {
-    let defense = this.units.reduce(
-      (acc, unit) => acc + unit.calculateDefenseStrength(),
+  async calculateDefenceStrength(): Promise<number> {
+    let defence = this.units.reduce(
+      (acc, unit) => acc + unit.calculateDefenceStrength(),
       0,
     );
-    const bonus = getDefenseModifier(this);
-    defense = applyBonuses(true, defense, bonus);
-    return Math.floor(defense);
+    const bonus = getDefenceModifier(this);
+    defence = applyBonuses(true, defence, bonus);
+    return Math.floor(defence);
   }
 
   async calculateGoldPerTurn(): Promise<number> {
@@ -278,12 +278,12 @@ export default class PlayerModel {
     const warHistoryID = `WRH-${ulid()}`;
 
     const playerAttackStrength = await this.calculateAttackStrength();
-    const targetPlayerDefenseStrength =
-      await targetPlayer.calculateDefenseStrength();
+    const targetPlayerDefenceStrength =
+      await targetPlayer.calculateDefenceStrength();
 
     const isVictor = this.determineIsVictor(
       playerAttackStrength,
-      targetPlayerDefenseStrength,
+      targetPlayerDefenceStrength,
     );
 
     // Calculate XP
@@ -304,7 +304,7 @@ export default class PlayerModel {
         attack_turns_used: attackTurns,
         is_attacker_victor: false,
         attacker_strength: playerAttackStrength,
-        defender_strength: targetPlayerDefenseStrength,
+        defender_strength: targetPlayerDefenceStrength,
         gold_stolen: 0,
         created_at: new Date(),
         attacker_experience: 0,
@@ -336,7 +336,7 @@ export default class PlayerModel {
       attack_turns_used: attackTurns,
       is_attacker_victor: true,
       attacker_strength: playerAttackStrength,
-      defender_strength: targetPlayerDefenseStrength,
+      defender_strength: targetPlayerDefenceStrength,
       gold_stolen: winnings,
       created_at: new Date(),
       attacker_experience: victorExperience,

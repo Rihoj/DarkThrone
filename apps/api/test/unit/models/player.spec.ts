@@ -39,7 +39,7 @@ const mockPlayerUnits = [
     unitType: 'worker',
     quantity: 10,
     calculateAttackStrength: jest.fn().mockReturnValue(40),
-    calculateDefenseStrength: jest.fn().mockReturnValue(50),
+    calculateDefenceStrength: jest.fn().mockReturnValue(50),
     calculateGoldPerTurn: jest.fn().mockReturnValue(100),
   } as unknown as PlayerUnitsModel,
 ];
@@ -90,7 +90,7 @@ describe('Model: Player', () => {
         'overallRank',
         'armySize',
         'attackStrength',
-        'defenseStrength',
+        'defenceStrength',
         'attackTurns',
         'experience',
         'goldInBank',
@@ -131,7 +131,7 @@ describe('Model: Player', () => {
         armySize: 0,
         attackTurns: 10,
         attackStrength: 44, // 40 from the mockPlayerUnits + 5% bonus for human
-        defenseStrength: 52,
+        defenceStrength: 52,
         depositHistory: [],
         remainingProficiencyPoints: 0,
         goldInBank: 40,
@@ -288,7 +288,7 @@ describe('Model: Player', () => {
     });
   });
 
-  describe('calculateDefenseStrength', () => {
+  describe('calculateDefenceStrength', () => {
     [
       { race: 'human', class: 'fighter', expected: 105 },
       { race: 'human', class: 'cleric', expected: 110 },
@@ -355,12 +355,12 @@ describe('Model: Player', () => {
         );
         player.units = [
           {
-            calculateDefenseStrength: jest.fn().mockReturnValue(100),
+            calculateDefenceStrength: jest.fn().mockReturnValue(100),
           } as unknown as PlayerUnitsModel,
         ];
-        const defenseStrength = await player.calculateDefenseStrength();
+        const defenceStrength = await player.calculateDefenceStrength();
 
-        expect(defenseStrength).toEqual(testCase.expected);
+        expect(defenceStrength).toEqual(testCase.expected);
       });
     });
   });
@@ -607,9 +607,9 @@ describe('Model: Player', () => {
       } as unknown as PlayerRow;
       const defenderUnits = [
         {
-          unitType: 'defense',
+          unitType: 'defence',
           quantity: 1,
-          calculateDefenseStrength: jest.fn().mockReturnValue(3),
+          calculateDefenceStrength: jest.fn().mockReturnValue(3),
         } as unknown as PlayerUnitsModel,
       ] as unknown as PlayerUnitsModel[];
 

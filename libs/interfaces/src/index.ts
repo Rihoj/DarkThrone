@@ -4,12 +4,12 @@ import { UnitTypes } from '@darkthrone/game-data';
 export enum UnitType {
   SUPPORT = 'support',
   OFFENSE = 'offense',
-  DEFENSE = 'defense',
+  DEFENCE = 'defence',
 }
 
 export type Unit = {
   attack: number;
-  defense: number;
+  defence: number;
   cost: number;
   goldPerTurn: number;
   canTrain: boolean;
@@ -35,7 +35,7 @@ export interface PlayerObject {
 
 export interface AuthedPlayerObject extends PlayerObject {
   attackStrength: number;
-  defenseStrength: number;
+  defenceStrength: number;
   experience: number;
   attackTurns: number;
   goldInBank: number;
@@ -114,3 +114,9 @@ export type HousingUpgrade = StructureUpgrade & {
   type: StructureType.HOUSING;
   citizensPerDay: number;
 };
+
+export interface Translation {
+  key: string;
+  values?: object;
+  context?: string;
+}

@@ -14,7 +14,7 @@ export const UnitTypes: { [k: string]: Unit } = {
     name: 'Citizen',
     type: UnitType.SUPPORT,
     attack: 0,
-    defense: 0,
+    defence: 0,
     cost: 0,
     goldPerTurn: 0,
     canTrain: false,
@@ -24,7 +24,7 @@ export const UnitTypes: { [k: string]: Unit } = {
     name: 'Worker',
     type: UnitType.SUPPORT,
     attack: 0,
-    defense: 0,
+    defence: 0,
     cost: 1000,
     goldPerTurn: 50,
     canTrain: true,
@@ -34,7 +34,7 @@ export const UnitTypes: { [k: string]: Unit } = {
     name: 'Soldier',
     type: UnitType.OFFENSE,
     attack: 3,
-    defense: 0,
+    defence: 0,
     cost: 1500,
     goldPerTurn: 0,
     canTrain: true,
@@ -42,9 +42,9 @@ export const UnitTypes: { [k: string]: Unit } = {
   },
   guard_1: {
     name: 'Guard',
-    type: UnitType.DEFENSE,
+    type: UnitType.DEFENCE,
     attack: 0,
-    defense: 3,
+    defence: 3,
     cost: 1500,
     goldPerTurn: 0,
     canTrain: true,
@@ -267,7 +267,7 @@ export const structureUpgrades = {
 
 type bonusStats = {
   offense: number;
-  defense: number;
+  defence: number;
   income: number;
   intelligence: number;
 };
@@ -275,25 +275,25 @@ type bonusStats = {
 export const raceBonuses: { [key in PlayerRace]: bonusStats } = {
   human: {
     offense: 5,
-    defense: 0,
+    defence: 0,
     income: 0,
     intelligence: 0,
   },
   elf: {
     offense: 0,
-    defense: 5,
+    defence: 5,
     income: 0,
     intelligence: 0,
   },
   goblin: {
     offense: 0,
-    defense: 5,
+    defence: 5,
     income: 0,
     intelligence: 0,
   },
   undead: {
     offense: 5,
-    defense: 0,
+    defence: 0,
     income: 0,
     intelligence: 0,
   },
@@ -302,25 +302,25 @@ export const raceBonuses: { [key in PlayerRace]: bonusStats } = {
 export const classBonuses: { [key in PlayerClass]: bonusStats } = {
   fighter: {
     offense: 5,
-    defense: 0,
+    defence: 0,
     income: 0,
     intelligence: 0,
   },
   cleric: {
     offense: 0,
-    defense: 5,
+    defence: 5,
     income: 0,
     intelligence: 0,
   },
   thief: {
     offense: 0,
-    defense: 0,
+    defence: 0,
     income: 5,
     intelligence: 0,
   },
   assassin: {
     offense: 0,
-    defense: 0,
+    defence: 0,
     income: 0,
     intelligence: 5,
   },

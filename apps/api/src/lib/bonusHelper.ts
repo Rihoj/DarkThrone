@@ -23,11 +23,11 @@ export function getCostModifier(player: PlayerModel): number {
   return bonus;
 }
 
-export function getDefenseModifier(player: PlayerModel): number {
+export function getDefenceModifier(player: PlayerModel): number {
   let bonus = 0;
-  bonus += raceBonuses[player.race]?.defense || 0;
-  bonus += classBonuses[player.class]?.defense || 0;
-  bonus += player.fortification.defenseBonusPercentage;
+  bonus += raceBonuses[player.race]?.defence || 0;
+  bonus += classBonuses[player.class]?.defence || 0;
+  bonus += player.fortification.defenceBonusPercentage;
   bonus += player.proficiencyPoints.constitution;
   return bonus;
 }
